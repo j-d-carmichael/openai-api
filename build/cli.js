@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-const Ask_1 = tslib_1.__importDefault(require("./Ask"));
 const path_1 = tslib_1.__importDefault(require("path"));
 const fs = tslib_1.__importStar(require("fs"));
 const OpenAiService_1 = tslib_1.__importDefault(require("./OpenAiService"));
 const nanospinner_1 = require("nanospinner");
+const Ask_1 = tslib_1.__importDefault(require("./Ask"));
 const run = async () => {
-    const answers = await Ask_1.default.ask();
+    const answers = await Ask_1.default.start();
+    process.exit(0);
     const inputFilePath = path_1.default.join(process.cwd(), answers.inputFileName);
     const outputFilePath = path_1.default.join(process.cwd(), answers.inputFileName + '.gptoutput.txt');
     const data = fs.readFileSync(inputFilePath).toString('utf-8');

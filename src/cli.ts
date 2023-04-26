@@ -1,11 +1,13 @@
-import Ask from './Ask';
 import path from 'path';
 import * as fs from 'fs';
 import OpenAiService from './OpenAiService';
-import { createSpinner } from 'nanospinner';
+import { createSpinner, Spinner } from 'nanospinner';
+import Ask from '@/Ask';
+
+let spinner: Spinner;
 
 const run = async () => {
-  const answers = await Ask.ask();
+  const answers = await Ask.start();
 
   const inputFilePath = path.join(process.cwd(), answers.inputFileName);
 
@@ -19,7 +21,7 @@ ${answers.prompt}:
 ${data}
 `;
 
-  const spinner = createSpinner('Sending request to GPT...').start();
+  spinner = createSpinner('Sending request to GPT...').start();
 
   let count = 1;
   const intervalUpdater = setInterval(() => {
@@ -46,4 +48,7 @@ The output has been written to ${outputFilePath}.
 `);
 };
 
-run().catch(console.error);
+run().catch((err) => {
+  spinner.error({ text: 'Something went wrong.' });
+  console.error(err.message);
+});
