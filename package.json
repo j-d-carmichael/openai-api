@@ -1,12 +1,12 @@
 {
   "name": "openai-file",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "",
   "bin": {
-    "openai-api": "./bin/cli.js"
+    "openai-file": "./bin/openai-file"
   },
   "scripts": {
-    "build": "rm -R build && tsc --project tsconfig.json --declaration --declarationDir build",
+    "build": "rm -R build && tsc --project tsconfig.json",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "eslint \"src/**/*.{js,ts,tsx}\" --quiet --fix",
     "test": "npm run lint:fix && npm run build && npm run test:unit",

@@ -20,7 +20,7 @@ ${data}
     let count = 1;
     const intervalUpdater = setInterval(() => {
         spinner.update({
-            text: 'Sending request to GPT... ' + count
+            text: 'Sending request to GPT... ' + count + ' seconds passed.'
         });
         ++count;
     }, 1000);
