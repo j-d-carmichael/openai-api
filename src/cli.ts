@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import OpenAiService from './OpenAiService';
 import { createSpinner, Spinner } from 'nanospinner';
 import Ask from '@/Ask';
+import writeToFile from '@/writeToFile';
 
 let spinner: Spinner;
 
@@ -11,7 +12,7 @@ const run = async () => {
 
   const inputFilePath = path.join(process.cwd(), answers.inputFileName);
 
-  const outputFilePath = path.join(process.cwd(), answers.inputFileName + '.gptoutput.txt');
+  const outputFilePath = writeToFile(answers.inputFileName);
 
   const data = fs.readFileSync(inputFilePath).toString('utf-8');
 
@@ -34,7 +35,7 @@ ${data}
   const output = await OpenAiService.outputFromPrompt({
     apiKey: answers.apiKey,
     openaiModel: answers.openAiModel,
-    prompt,
+    prompt
   });
 
   clearInterval(intervalUpdater);

@@ -1,7 +1,7 @@
 {
   "name": "openai-file",
-  "version": "1.1.1",
-  "description": "",
+  "version": "1.2.0",
+  "description": "Use this tool to read content from text files, provide a prompt and get the output written to disk.",
   "bin": {
     "openai-file": "./bin/openai-file"
   },

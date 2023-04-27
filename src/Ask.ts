@@ -1,4 +1,3 @@
-import inquirer from 'inquirer';
 import Settings from '@/Settings';
 
 interface IStart {
@@ -9,7 +8,10 @@ interface IStart {
 }
 
 class Ask {
+  // eslint-disable-next-line max-lines-per-function
   async start (): Promise<IStart> {
+    const inquirer = (await import('inquirer')).default;
+
     const settings = Settings.getSettings();
 
     const data: IStart = {
@@ -26,7 +28,7 @@ class Ask {
           type: 'confirm',
           name: 'confirm',
           message: `This was used last time "${settings.apiKey}" us it again?`,
-          default: false
+          default: true
         }
       ]);
       if (confirm) {
@@ -38,8 +40,8 @@ class Ask {
         {
           type: 'input',
           name: 'apiKey',
-          message: `What is your openai key?`
-        },
+          message: 'What is your openai key?'
+        }
       ]);
       data.apiKey = apiKey;
     }
@@ -51,7 +53,7 @@ class Ask {
           type: 'confirm',
           name: 'confirm',
           message: `This AI model was used last time "${settings.openAiModel}", use it again?`,
-          default: false
+          default: true
         }
       ]);
       if (confirm) {
@@ -64,7 +66,7 @@ class Ask {
           type: 'list',
           name: 'openAiModel',
           choices: ['4', '3.5']
-        },
+        }
       ]);
       data.openAiModel = openAiModel;
     }
@@ -74,13 +76,13 @@ class Ask {
       {
         type: 'input',
         name: 'inputFileName',
-        message: `What is the full name of the file (warning only files that can be opened in a simple editor will work)?`,
-      },
+        message: 'What is the full name of the file (warning only files that can be opened in a simple editor will work)?'
+      }
     ]);
     data.inputFileName = inputFileName;
 
     // show prompt history to select from or write new
-    let prompts = settings.prompts;
+    const prompts = settings.prompts;
     if (settings.prompts.length) {
       const { prompt } = await inquirer.prompt([
         {
@@ -90,7 +92,7 @@ class Ask {
             'Write new prompt',
             ...settings.prompts
           ]
-        },
+        }
       ]);
       data.prompt = prompt;
     }
@@ -106,8 +108,8 @@ class Ask {
           type: 'input',
           name: 'prompt',
           message: `What is the prompt you would like to give to openai with this file?
-`,
-        },
+`
+        }
       ]);
       data.prompt = prompt;
       prompts.unshift(data.prompt);
@@ -121,7 +123,7 @@ class Ask {
         name: 'confirm',
         message:
           'Press Y and enter to continue, or N and enter to cancel',
-        default: false
+        default: true
       }
     ]);
 
