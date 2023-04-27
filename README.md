@@ -2,11 +2,13 @@
 
 ## What
 
-A command line tool that reads a txt file and asks for an openai prompt, model to use and api key.
+A tool that reads a txt file and asks for an openai prompt, model to use and api key.
 
 The tool then passes this data to the openai API.
 
 The output is written to the same location as the input file with "gptoutput.txt" appended.
+
+
 
 ## Install
 
