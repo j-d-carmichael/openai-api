@@ -1,6 +1,8 @@
 import * as fs from 'fs-extra';
+import os from 'os';
+import path from 'path';
 
-const settingsFilePath = '~/.openai-file';
+const settingsFilePath = path.join(os.homedir(), '.openai-file');
 
 interface ISettings {
   apiKey?: string,
@@ -11,9 +13,11 @@ interface ISettings {
 class Settings {
   getSettings (): ISettings {
     try {
-      return JSON.parse(
+      const parsed = JSON.parse(
         fs.readFileSync(settingsFilePath).toString('utf-8')
       );
+      console.log('Settings fetched from: ' + settingsFilePath);
+      return parsed;
     } catch (e) {
       return {
         prompts: []
@@ -24,9 +28,10 @@ class Settings {
   setSettings (settings: ISettings) {
     fs.ensureFileSync(settingsFilePath);
     if (fs.pathExistsSync(settingsFilePath)) {
-      console.log(settingsFilePath)
+      console.log(settingsFilePath);
     }
     fs.writeJSONSync(settingsFilePath, settings);
+    console.log('Settings saved to: ' + settingsFilePath);
   }
 }
 

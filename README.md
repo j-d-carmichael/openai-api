@@ -8,8 +8,6 @@ The tool then passes this data to the openai API.
 
 The output is written to the same location as the input file with "gptoutput.txt" appended.
 
-
-
 ## Install
 
 1. Install globally, `sudo npm i -g openai-file`
