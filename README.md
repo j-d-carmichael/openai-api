@@ -1,6 +1,20 @@
 # openai-file
 
-## What
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [What is this thing?](#what-is-this-thing)
+- [Screenshot and some words to explain](#screenshot-and-some-words-to-explain)
+- [How to install (simple for anyone)](#how-to-install-simple-for-anyone)
+- [How to use](#how-to-use)
+- [Circular use - GPT talk to GPT](#circular-use---gpt-talk-to-gpt)
+- [Want to make this better?](#want-to-make-this-better)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+## What is this thing?
 
 A tool that reads a txt file and asks for an openai prompt, model to use and api key.
 
@@ -53,7 +67,7 @@ You might need to request access to GPT4.
       - This is the instruction you are giving to gpt, eg "Please turn the following content into a script for a picth deck"
 7. The tool will then pass this data to openai and write the output to "myfirst.txt.gptoutput.txt" 
 
-## Circular use
+## Circular use - GPT talk to GPT
 
 Try circular uses of this tool and see what you get. By this it means, taking the response from GPT and feeding it back to GPT with maybe a few altered words in the prompt.
 
@@ -66,6 +80,8 @@ You can then pass the new file back to GPT with a new prompt "this is a 7 slide 
 etc etc... 
 
 The only issue with the API is that there is no memory of the previous prompts.
+
+If anyone would like to send an option that would allow this tool to auto loop, please send in a PR :)
 
 ## Want to make this better?
 

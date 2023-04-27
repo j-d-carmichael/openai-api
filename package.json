@@ -1,12 +1,13 @@
 {
   "name": "openai-file",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Use this tool to read content from text files, provide a prompt and get the output written to disk.",
   "bin": {
     "openai-file": "./bin/openai-file"
   },
   "scripts": {
-    "build": "rimraf -fR ./build && tsc --project tsconfig.json --declaration --declarationDir build && tsc-alias -p tsconfig.json",
+    "build": "npm run build:tocs && rimraf -fR ./build && tsc --project tsconfig.json --declaration --declarationDir build && tsc-alias -p tsconfig.json",
+    "build:tocs": "npx doctoc .",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "eslint \"src/**/*.{js,ts,tsx}\" --quiet --fix"
   },
