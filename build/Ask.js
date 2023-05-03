@@ -62,14 +62,29 @@ class Ask {
             data.openAiModel = openAiModel;
         }
         // get the file name
-        const { inputFileName } = await inquirer.prompt([
-            {
-                type: 'input',
-                name: 'inputFileName',
-                message: 'What is the full name of the file (warning only files that can be opened in a simple editor will work)?'
+        if (settings.inputFileName) {
+            const { confirm } = await inquirer.prompt([
+                {
+                    type: 'confirm',
+                    name: 'confirm',
+                    message: `This was the last file you user, "${settings.inputFileName}", use it again?`,
+                    default: true
+                }
+            ]);
+            if (confirm) {
+                data.inputFileName = settings.inputFileName;
             }
-        ]);
-        data.inputFileName = inputFileName;
+        }
+        if (!data.inputFileName) {
+            const { inputFileName } = await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'inputFileName',
+                    message: 'Name of the input file?'
+                }
+            ]);
+            data.inputFileName = inputFileName;
+        }
         // show prompt history to select from or write new
         const prompts = settings.prompts;
         if (settings.prompts.length) {
@@ -89,7 +104,7 @@ class Ask {
             if (data.prompt === 'Write new prompt') {
                 console.log('Here are the last 10 prompts you used:');
                 settings.prompts.forEach((prompt, index) => {
-                    console.log(`${index + 1} - ${prompt}`);
+                    console.log(`${index + 1}: "${prompt}"`);
                 });
             }
             const { prompt } = await inquirer.prompt([
@@ -119,7 +134,8 @@ class Ask {
         Settings_1.default.setSettings({
             apiKey: data.apiKey,
             openAiModel: data.openAiModel,
-            prompts: prompts.slice(0, 10)
+            prompts: prompts.slice(0, 10),
+            inputFileName: data.inputFileName
         });
         return data;
     }

@@ -6,6 +6,7 @@ const settingsFilePath = path.join(os.homedir(), '.openai-file');
 
 interface ISettings {
   apiKey?: string,
+  inputFileName? : string,
   openAiModel?: '3.5' | '4',
   prompts: string[]
 }
