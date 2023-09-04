@@ -59,6 +59,5 @@ ${data}`;
 };
 
 run().catch((err) => {
-  spinner.error({ text: 'Something went wrong.' });
-  console.error(err.message);
+  console.error('ERROR: ', err.message);
 });
