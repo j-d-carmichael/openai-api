@@ -80,7 +80,7 @@ class Ask {
                 {
                     type: 'input',
                     name: 'inputFileName',
-                    message: 'Name of the input file? Enter and empty string for a command only.'
+                    message: 'Name of the input file? (Leave empty a command only without a file input)'
                 }
             ]);
             data.inputFileName = inputFileName;
@@ -111,7 +111,7 @@ class Ask {
                 {
                     type: 'input',
                     name: 'prompt',
-                    message: `What is the prompt you would like to give to openai with this file?
+                    message: `What is the prompt you would like to give to openai? (If you passed a file to read, it will precede the contents of the file)
 `
                 }
             ]);
