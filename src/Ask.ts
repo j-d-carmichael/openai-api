@@ -27,7 +27,7 @@ class Ask {
         {
           type: 'confirm',
           name: 'confirm',
-          message: `This was used last time "${settings.apiKey}" us it again?`,
+          message: `This api key was used last time "${settings.apiKey}" us it again?`,
           default: true
         }
       ]);
@@ -90,7 +90,7 @@ class Ask {
         {
           type: 'input',
           name: 'inputFileName',
-          message: 'Name of the input file?'
+          message: 'Name of the input file? Enter and empty string for a command only.'
         }
       ]);
       data.inputFileName = inputFileName;

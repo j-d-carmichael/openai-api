@@ -12,15 +12,16 @@ const run = async () => {
 
   const inputFilePath = path.join(process.cwd(), answers.inputFileName);
 
-  const outputFilePath = writeToFile(answers.inputFileName);
+  let data = '';
+  let outputFilePath;
 
-  const data = fs.readFileSync(inputFilePath).toString('utf-8');
+  if (answers.inputFileName) {
+    outputFilePath = writeToFile(answers.inputFileName);
+    data = fs.readFileSync(inputFilePath).toString('utf-8');
+  }
+  const prompt = `${answers.prompt}: 
 
-  const prompt = `
-${answers.prompt}: 
-
-${data}
-`;
+${data}`;
 
   spinner = createSpinner('Sending request to GPT...').start();
 
@@ -42,11 +43,22 @@ ${data}
 
   spinner.success();
 
-  fs.writeFileSync(outputFilePath, output.choices[0].message.content);
-
-  console.log(`
-The output has been written to ${outputFilePath}.
+  console.log(`Here is the output: 
+  
+  ${output.choices[0].message.content}
 `);
+
+  if (outputFilePath) {
+    fs.writeFileSync(outputFilePath, output.choices[0].message.content);
+    console.log(`
+
+=======================================================
+
+The output has also been written to: ${outputFilePath}.
+
+=======================================================
+`);
+  }
 };
 
 run().catch((err) => {
