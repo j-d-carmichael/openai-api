@@ -46,7 +46,7 @@ ${data}`;
   console.log('Here is the output:');
   console.log(output.choices[0].message.content);
 
-  if (outputFilePath.length) {
+  if (outputFilePath && outputFilePath.length) {
     fs.writeFileSync(outputFilePath, output.choices[0].message.content);
     console.log('=======================================================');
     console.log('');
