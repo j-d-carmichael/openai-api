@@ -7,7 +7,9 @@ import writeToFile from '@/writeToFile';
 
 let spinner: Spinner;
 
+// eslint-disable-next-line max-lines-per-function
 const run = async () => {
+  spinner = createSpinner('Sending request to GPT...');
   const answers = await Ask.start();
 
   const inputFilePath = path.join(process.cwd(), answers.inputFileName);
@@ -15,7 +17,7 @@ const run = async () => {
   let data = '';
   let outputFilePath;
 
-  if (answers.inputFileName) {
+  if (answers.inputFileName.length) {
     outputFilePath = writeToFile(answers.inputFileName);
     data = fs.readFileSync(inputFilePath).toString('utf-8');
   }
@@ -23,15 +25,13 @@ const run = async () => {
 
 ${data}`;
 
-  spinner = createSpinner('Sending request to GPT...').start();
+  spinner.start();
 
   let count = 1;
   const intervalUpdater = setInterval(() => {
-    spinner.update({
-      text: 'Sending request to GPT... ' + count + ' seconds passed.'
-    });
+    spinner.update({ text: 'Sending request to GPT... ' + count + ' seconds passed.' });
     ++count;
-  }, 1000);
+  }, 505);
 
   const output = await OpenAiService.outputFromPrompt({
     apiKey: answers.apiKey,
@@ -43,21 +43,18 @@ ${data}`;
 
   spinner.success();
 
-  console.log(`Here is the output: 
-  
-  ${output.choices[0].message.content}
-`);
+  console.log('Here is the output:');
+  console.log(output.choices[0].message.content);
 
-  if (outputFilePath) {
+  if (outputFilePath.length) {
     fs.writeFileSync(outputFilePath, output.choices[0].message.content);
-    console.log(`
-
-=======================================================
-
-The output has also been written to: ${outputFilePath}.
-
-=======================================================
-`);
+    console.log('=======================================================');
+    console.log('');
+    console.log('');
+    console.log('The output has also been written to: ${outputFilePath}.');
+    console.log('');
+    console.log('');
+    console.log('=======================================================');
   }
 };
 
