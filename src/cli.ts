@@ -51,7 +51,7 @@ ${data}`;
     console.log('=======================================================');
     console.log('');
     console.log('');
-    console.log('The output has also been written to: ${outputFilePath}.');
+    console.log(`The output has also been written to: ${outputFilePath}.`);
     console.log('');
     console.log('');
     console.log('=======================================================');
