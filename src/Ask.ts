@@ -3,6 +3,7 @@ import Settings from '@/Settings';
 interface IStart {
   openAiModel: '3.5' | '4',
   inputFileName: string,
+  outputToFileWithNoInputFile: boolean,
   prompt: string,
   apiKey: string
 }
@@ -18,6 +19,7 @@ class Ask {
       apiKey: null,
       prompt: null,
       inputFileName: null,
+      outputToFileWithNoInputFile: false,
       openAiModel: null
     };
 
@@ -46,7 +48,7 @@ class Ask {
       data.apiKey = apiKey;
     }
 
-    // get the api model
+    // Start: get the api model
     if (settings.openAiModel) {
       const { confirm } = await inquirer.prompt([
         {
@@ -70,8 +72,10 @@ class Ask {
       ]);
       data.openAiModel = openAiModel;
     }
+    // End: get the api model
 
-    // get the file name
+
+    // Start: get the file name to read
     if (settings.inputFileName) {
       const { confirm } = await inquirer.prompt([
         {
@@ -95,8 +99,22 @@ class Ask {
       ]);
       data.inputFileName = inputFileName;
     }
+    // End: get the file name to read
 
-    // show prompt history to select from or write new
+    // Start: decide to output to file or not
+    if (!data.inputFileName) {
+      const { outputToFile } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'outputToFile',
+          message: 'No input file, output the reply to a file?',
+          default: false
+        }
+      ]);
+      data.outputToFileWithNoInputFile = outputToFile;
+    }
+
+    // Start: show prompt history to select from or write new
     const prompts = settings.prompts;
     if (settings.prompts.length) {
       const { prompt } = await inquirer.prompt([
@@ -129,6 +147,7 @@ class Ask {
       data.prompt = prompt;
       prompts.unshift(data.prompt);
     }
+    // End: show prompt history to select from or write new
 
     console.log('Here are the answers you gave: ', JSON.stringify(data, null, 2));
 

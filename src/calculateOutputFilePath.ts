@@ -1,7 +1,7 @@
 import path from 'path';
 import { pathExistsSync } from 'fs-extra';
 
-const writeToFile = (inputFileName: string, number?: number): string => {
+const calculateOutputFilePath = (inputFileName: string, number?: number): string => {
   const outputFilePath = path.join(
     process.cwd(),
     `${inputFileName}.gptoutput${number ? '(' + number + ')' : ''}.txt`
@@ -15,7 +15,7 @@ const writeToFile = (inputFileName: string, number?: number): string => {
   } else {
     number = 1;
   }
-  return writeToFile(inputFileName, number);
+  return calculateOutputFilePath(inputFileName, number);
 };
 
-export default writeToFile;
+export default calculateOutputFilePath;

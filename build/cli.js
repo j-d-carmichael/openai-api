@@ -6,7 +6,8 @@ const fs = tslib_1.__importStar(require("fs"));
 const OpenAiService_1 = tslib_1.__importDefault(require("./OpenAiService"));
 const nanospinner_1 = require("nanospinner");
 const Ask_1 = tslib_1.__importDefault(require("./Ask"));
-const writeToFile_1 = tslib_1.__importDefault(require("./writeToFile"));
+const calculateOutputFilePath_1 = tslib_1.__importDefault(require("./calculateOutputFilePath"));
+const yyyymmdd_1 = tslib_1.__importDefault(require("./yyyymmdd"));
 let spinner;
 // eslint-disable-next-line max-lines-per-function
 const run = async () => {
@@ -16,8 +17,11 @@ const run = async () => {
     let data = '';
     let outputFilePath;
     if (answers.inputFileName.length) {
-        outputFilePath = (0, writeToFile_1.default)(answers.inputFileName);
+        outputFilePath = (0, calculateOutputFilePath_1.default)(answers.inputFileName);
         data = fs.readFileSync(inputFilePath).toString('utf-8');
+    }
+    else if (answers.outputToFileWithNoInputFile) {
+        outputFilePath = (0, calculateOutputFilePath_1.default)(`${(0, yyyymmdd_1.default)()}_${answers.prompt.substring(0, 20)}.txt`);
     }
     const prompt = `${answers.prompt}: 
 
@@ -27,7 +31,7 @@ ${data}`;
     const intervalUpdater = setInterval(() => {
         spinner.update({ text: 'Sending request to GPT... ' + count + ' seconds passed.' });
         ++count;
-    }, 505);
+    }, 1000);
     const output = await OpenAiService_1.default.outputFromPrompt({
         apiKey: answers.apiKey,
         openaiModel: answers.openAiModel,
@@ -36,18 +40,19 @@ ${data}`;
     clearInterval(intervalUpdater);
     spinner.success();
     console.log('Here is the output:');
+    console.log('');
+    console.log('');
     console.log(output.choices[0].message.content);
-    if (outputFilePath.length) {
+    if (outputFilePath && outputFilePath.length) {
         fs.writeFileSync(outputFilePath, output.choices[0].message.content);
+        console.log('');
+        console.log('');
+        console.log('');
         console.log('=======================================================');
         console.log('');
-        console.log('');
-        console.log('The output has also been written to: ${outputFilePath}.');
-        console.log('');
+        console.log(`The output has also been written to disk at: ${outputFilePath}.`);
         console.log('');
         console.log('=======================================================');
     }
 };
-run().catch((err) => {
-    console.error('ERROR: ', err.message);
-});
+run().catch((err) => console.error('ERROR: ', err.message));

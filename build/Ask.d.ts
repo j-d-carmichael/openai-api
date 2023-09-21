@@ -1,6 +1,7 @@
 interface IStart {
     openAiModel: '3.5' | '4';
     inputFileName: string;
+    outputToFileWithNoInputFile: boolean;
     prompt: string;
     apiKey: string;
 }
